@@ -5,19 +5,37 @@ from datasets.jester import *
 import surprise
 
 # %%
-jd = JesterDataset(jokes_path="../../Dataset3JokeSet.xlsx",
-ratings_path="../../jester_dataset3.xls"
+jd = JesterDataset(jokes_path="../datasets/Dataset3JokeSet.xlsx",
+ratings_path="../datasets/jester_dataset3.xls"
 )
 #%%
-model_path = os.path.join("../models", "svd")
+model_path = "../models/svd"
 logging.info(f"Loading model {model_path}...")
 svd = surprise.dump.load(model_path)[1]
 # %%
 
-jd.ratings
-# %%
-svd.predict(uid=54904, iid=5)
+jd.ratings.head()
 
+# %%
+raw_uid = 0
+raw_iid = 5
+inner_uid = svd.trainset.to_inner_uid(raw_uid)
+inner_iid = svd.trainset.to_inner_iid(raw_iid)
+# %%
+svd.trainset.to_raw_iid(inner_iid)
+ # %%
+print(svd.predict(uid=raw_uid, iid=raw_iid, r_ui=jd.ratings.loc[raw_uid, raw_iid]))
+print(svd.bu[inner_uid] + svd.bi[inner_iid] + svd.pu[inner_uid,:].dot(svd.qi[inner_iid,:].T) + svd.default_prediction())
+
+# %%
+print("pu",svd.pu.shape)
+print("qi", svd.qi.shape)
+print(svd.bu.shape)
+print(svd.bi.shape)
+# %%
+np.mean(np.std(svd.pu, axis=0))
+# %%
+np.max(np.sqrt(np.sum(np.square(svd.pu),axis=1)))
 # %%
 idx = jd.ratings.loc[54904].dropna().index
 # %%
@@ -40,10 +58,7 @@ jd.ratings.head()
 # %%
 svd.predict(uid=0, iid=3, verbose=True)
 # %%
-print("pu",svd.pu.shape)
-print("qi", svd.qi.shape)
-print(svd.bu.shape)
-print(svd.bi.shape)
+
 # %%
 svd.bi
 # %%
@@ -69,7 +84,7 @@ len(svd.trainset.ur.keys())
 # %%
 jd.ratings.head()
 # %%
-svd.trainset.to_inner_iid(5)
+svd.trainset.to_inner_uid(0)
 # %%
 svd.estimate(u=39171, i=130)
 # %%

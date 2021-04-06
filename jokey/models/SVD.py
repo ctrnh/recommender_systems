@@ -6,7 +6,7 @@ from .recommender import Recommender
 class SVD(Recommender):
     def __init_(self, dataset):
         
-        super().__init__(self, dataset=dataset)
+        super().__init__( dataset=dataset)
 
     def __str__(self):
         return "JokeySVD"

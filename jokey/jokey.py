@@ -5,7 +5,7 @@ import argparse
 import logging
 from datasets.jester import *
 from models import SVD
-#from models import LinUCB
+from models import LinUCB
 #%%
 
 logger = logging.getLogger(__name__)
@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--algo_name", type=str, default="SVD")
+parser.add_argument("--algo_name", type=str, default="svd_linucb")
 parser.add_argument("--K_ratings", type=int, default=10)
 args = parser.parse_args()
 
@@ -56,7 +56,7 @@ if __name__ == "__main__":
             algo = recommender.UserKnn(dataset=jester)
         elif args.algo_name.lower() == "svd_linucb":
             cold_start = True
-            algo = recommender.LinUCB(dataset=jester,
+            algo = LinUCB.LinUCB(dataset=jester,
                                         )
 
 

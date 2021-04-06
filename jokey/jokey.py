@@ -25,7 +25,7 @@ if __name__ == "__main__":
                         ratings_path="./datasets/jester_dataset3.xls")
 
 
-    ans = input("Do you want to see: \n 1. the most popular jokes ? \n 2. personnalized recommendations without exploration? \n")#\n 3. personnalized recommandations with exploration?\n")
+    ans = input("Do you want to see: \n 1. the most popular jokes ? \n 2. Personnalized recommendations?  \n")#\n 3. personnalized recommandations with exploration?\n")
     while ans not in {"1","2"}:
         ans = input("Please enter valid value.")
     
